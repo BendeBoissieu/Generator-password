@@ -1,0 +1,47 @@
+# import tkinter
+import string
+from random import choice, randint
+from tkinter import *
+
+class MyApp:
+
+    def __init__(self):
+        self.window = Tk()
+        self.window.title("PasswordGenerator")
+        self.window.geometry("480x360")
+        self.window.maxsize(480, 360)
+        self.create_widgets()
+
+    def create_widgets(self):
+        self.create_main_logo()
+        self.create_entry_input()
+        self.create_generate_button("Generate")
+
+    def create_main_logo(self):
+        width, height = 200, 200
+        can = Canvas(self.window, width=width, height=height)
+        self.image = PhotoImage(file="lockpng.png").zoom(30).subsample(32)
+        can.create_image(height / 2, width / 2, image=self.image)
+        can.pack(pady=25)
+
+    def create_entry_input(self):
+        self.entry = Entry(self.window, fg="blue")
+        self.entry.config(font=("Courier", 15))
+        self.entry.pack(fill=X, pady=15)
+
+    def create_generate_button(self, string):
+        button = Button(self.window, text=string, bg='green', fg='white', command=self.generate)
+        button.config(font=("Courier", 20))
+        button.pack(fill=X)
+
+    def generate(self, min=6, max=12):
+        all_char = string.ascii_letters + string.punctuation + string.digits
+        password = "".join(choice(all_char) for x in range(randint(min, max)))
+        self.entry.delete(0, END)
+        self.entry.insert(0, password)
+
+# Create the entire GUI program
+program = MyApp()
+
+# Start
+program.window.mainloop()
